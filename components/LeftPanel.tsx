@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { File, FileSystemNode, Topic, Package, LearningContent } from '../types';
 import Workspace from './Workspace';
@@ -11,6 +10,9 @@ import { JavaScriptIcon } from './icons/JavaScriptIcon';
 import { TypeScriptIcon } from './icons/TypeScriptIcon';
 import { MinimizeIcon } from './icons/MinimizeIcon';
 import { MaximizeIcon } from './icons/MaximizeIcon';
+import { NextjsIcon } from './icons/NextjsIcon';
+import { VuejsIcon } from './icons/VuejsIcon';
+import { NuxtjsIcon } from './icons/NuxtjsIcon';
 
 
 interface LeftPanelProps {
@@ -30,7 +32,7 @@ interface LeftPanelProps {
 }
 
 type LearnTab = keyof LearningContent;
-const learnTabs: LearnTab[] = ['html', 'css', 'javascript', 'typescript'];
+const learnTabs: LearnTab[] = ['html', 'css', 'javascript', 'typescript', 'nextjs', 'vuejs', 'nuxtjs'];
 
 type ActiveTab = 'workspace' | LearnTab;
 
@@ -49,7 +51,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   onToggleMinimize,
   onClose,
 }) => {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('workspace');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('vuejs');
 
   const tabConfig: Record<ActiveTab, { icon: React.FC<any>, color: string, ring: string, label: string, title: string }> = {
     workspace: { icon: FolderIcon, color: 'text-cyan-400', ring: 'focus:ring-cyan-400', label: 'Workspace', title: 'Workspace'},
@@ -57,6 +59,9 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
     css: { icon: CssIcon, color: 'text-blue-400', ring: 'focus:ring-blue-400', label: 'Learn CSS', title: 'CSS'},
     javascript: { icon: JavaScriptIcon, color: 'text-yellow-400', ring: 'focus:ring-yellow-400', label: 'Learn JavaScript', title: 'JavaScript'},
     typescript: { icon: TypeScriptIcon, color: 'text-sky-400', ring: 'focus:ring-sky-400', label: 'Learn TypeScript', title: 'TypeScript' },
+    nextjs: { icon: NextjsIcon, color: 'text-slate-300', ring: 'focus:ring-slate-300', label: 'Learn Next.js', title: 'Next.js' },
+    vuejs: { icon: VuejsIcon, color: 'text-green-400', ring: 'focus:ring-green-400', label: 'Learn Vue.js', title: 'Vue.js' },
+    nuxtjs: { icon: NuxtjsIcon, color: 'text-emerald-400', ring: 'focus:ring-emerald-400', label: 'Learn Nuxt.js', title: 'Nuxt.js' },
   };
 
   const handleTabClick = (tabName: ActiveTab) => {

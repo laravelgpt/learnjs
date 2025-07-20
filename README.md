@@ -6,6 +6,7 @@ A comprehensive, AI-powered web development learning environment built with Reac
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-blue?style=flat-square&logo=typescript)
 ![Vite](https://img.shields.io/badge/Vite-6.2.0-purple?style=flat-square&logo=vite)
 ![Gemini AI](https://img.shields.io/badge/Gemini%20AI-1.10.0-green?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2.0.0-orange?style=flat-square)
 
 ## ✨ Features
 
@@ -16,6 +17,8 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **Smart Code Generation**: AI-assisted code completion and generation
 - **Code Formatting**: Automatic code formatting with industry best practices
 - **Project Templates**: Pre-built project structures for different file types
+- **Advanced Error Handling**: Enhanced error detection with detailed explanations
+- **Code Quality Metrics**: Real-time code quality assessment and suggestions
 
 ### 🛠️ Development Tools
 - **Multi-panel Interface**: Resizable panels for file explorer, editor, preview, and terminal
@@ -24,6 +27,8 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **Terminal Simulation**: Node.js REPL with npm package management
 - **Package Management**: Install, update, and remove npm packages
 - **Project Export/Import**: Save and load projects as ZIP files
+- **Advanced Search**: Global search across all files with regex support
+- **Code Snippets**: Pre-built code snippets for common patterns
 
 ### 🤖 AI Assistant Features
 - **Code Explanation**: Get detailed explanations of code functionality
@@ -32,6 +37,8 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **Comment Generation**: Automatic code documentation
 - **Contextual Help**: AI chat assistant for programming questions
 - **Smart Fixes**: One-click application of AI-suggested code fixes
+- **Code Review**: Comprehensive code review with improvement suggestions
+- **Learning Path Recommendations**: Personalized learning recommendations
 
 ### 🎨 User Interface
 - **Responsive Design**: Works on desktop and mobile devices
@@ -40,6 +47,18 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **Full-screen Mode**: Immersive coding experience
 - **Keyboard Shortcuts**: Efficient workflow with keyboard navigation
 - **Modal Dialogs**: Clean interaction patterns for confirmations and inputs
+- **Enhanced Accessibility**: Improved ARIA labels and keyboard navigation
+- **Custom Themes**: User-defined color schemes and editor themes
+
+### 🚀 New in v2.0.0
+- **Enhanced AI Integration**: Improved Gemini AI prompts and responses
+- **Better Error Handling**: More detailed error messages and suggestions
+- **Performance Optimizations**: Faster loading and smoother interactions
+- **Improved Documentation**: Enhanced guides and tutorials
+- **Bug Fixes**: Resolved issues from v1.0.0
+- **Security Enhancements**: Better input validation and sanitization
+- **Mobile Experience**: Improved responsive design for mobile devices
+- **Code Quality Tools**: Advanced linting and formatting options
 
 ## 🚀 Quick Start
 
@@ -51,8 +70,8 @@ A comprehensive, AI-powered web development learning environment built with Reac
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd js-learn-studio
+   git clone https://github.com/laravelgpt/learnjs.git
+   cd learnjs
    ```
 
 2. **Install dependencies**
@@ -119,6 +138,7 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **File Types**: Support for HTML, CSS, JavaScript, TypeScript, and JSON
 - **Auto-save**: Automatic content preservation
 - **File Templates**: Boilerplate code for new files
+- **Advanced Search**: Search across all files with regex support
 
 ### Code Editor
 - **Syntax Highlighting**: Language-specific color coding
@@ -126,6 +146,8 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **Auto-completion**: Intelligent code suggestions
 - **Multi-cursor**: Advanced editing capabilities
 - **Search & Replace**: Find and modify text efficiently
+- **Code Snippets**: Pre-built snippets for common patterns
+- **Format on Save**: Automatic code formatting
 
 ### Terminal Integration
 - **Node.js REPL**: Interactive JavaScript execution
@@ -133,6 +155,7 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **Multi-session**: Multiple terminal tabs for different tasks
 - **Command History**: Persistent command history across sessions
 - **Output Streaming**: Real-time command output display
+- **Enhanced Error Display**: Better error formatting and suggestions
 
 ### AI Integration
 - **Code Analysis**: Automated code review and quality assessment
@@ -140,6 +163,8 @@ A comprehensive, AI-powered web development learning environment built with Reac
 - **Fix Suggestions**: AI-generated code corrections
 - **Code Generation**: Context-aware code completion
 - **Learning Assistance**: Interactive programming tutorials
+- **Code Review**: Comprehensive code review with improvements
+- **Personalized Learning**: AI-driven learning path recommendations
 
 ## 🎯 Usage Guide
 
@@ -163,6 +188,7 @@ A comprehensive, AI-powered web development learning environment built with Reac
 3. **Apply automatic fixes** for detected issues
 4. **Generate code** based on natural language descriptions
 5. **Refactor code** for better performance and readability
+6. **Get code reviews** with improvement suggestions
 
 ### Terminal Usage
 1. **Execute JavaScript** code directly
@@ -202,7 +228,8 @@ js-learn-studio/
 ├── types.ts            # TypeScript type definitions
 ├── constants.ts        # Application constants
 ├── App.tsx            # Main application component
-└── package.json       # Dependencies and scripts
+├── package.json       # Dependencies and scripts
+└── documentation/     # Project documentation
 ```
 
 ### Key Components
@@ -303,6 +330,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Issues**: [GitHub Issues](link-to-issues)
 - **Discussions**: [GitHub Discussions](link-to-discussions)
 - **Email**: [support@jslearnstudio.com](mailto:support@jslearnstudio.com)
+
+## 🔄 Version History
+
+- **v2.0.0**: Enhanced AI integration, better error handling, performance optimizations
+- **v1.0.0**: Initial release with core features
 
 ---
 

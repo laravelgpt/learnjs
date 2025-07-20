@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { File, FileSystemNode, Package } from '../types';
 import { FolderIcon } from './icons/FolderIcon';

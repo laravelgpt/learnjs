@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { File, Folder, FileSystemNode, Subject, Topic, ChatSession, Problem, Package, ModalState, EditorToolbarState, EditorAIAction, LearningContent, TerminalSession } from './types';
 import { DEFAULT_FILESYSTEM, LEARNING_CONTENT, INITIAL_TERMINAL } from './constants';
@@ -67,7 +63,7 @@ const getBoilerplateForFile = (fileName: string): string => {
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \\"Error: no test specified\\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -120,6 +116,10 @@ function greet(name: string): void {
 }
 
 greet('World');`;
+    case 'tsx':
+        return `export default function Component() {
+    return <h1>Hello from ${fileName}</h1>
+}`;
     case 'json':
       return `{
   "key": "value"
@@ -156,11 +156,14 @@ const isDesktop = () => window.innerWidth >= 1024;
 const App: React.FC = () => {
   const processedLessons = useMemo(() => {
     const newLessons: LearningContent = JSON.parse(JSON.stringify(LEARNING_CONTENT)); // Deep copy to avoid mutating constant
-    const extensionMap: { [key: string]: 'html' | 'css' | 'js' | 'ts' } = {
+    const extensionMap: { [key: string]: 'html' | 'css' | 'js' | 'ts' | 'jsx' | 'tsx' } = {
         html: 'html',
         css: 'css',
         javascript: 'js',
         typescript: 'ts',
+        nextjs: 'tsx',
+        vuejs: 'js',
+        nuxtjs: 'tsx',
     };
     for (const key in newLessons) {
         if (Object.prototype.hasOwnProperty.call(newLessons, key)) {
@@ -168,7 +171,9 @@ const App: React.FC = () => {
             if (extensionMap[subjectKey]) {
                 newLessons[subjectKey].forEach(subject => {
                     subject.topics.forEach(topic => {
-                        topic.fileType = extensionMap[subjectKey];
+                        if (!topic.fileType) {
+                          topic.fileType = extensionMap[subjectKey];
+                        }
                     });
                 });
             }
@@ -180,10 +185,10 @@ const App: React.FC = () => {
   const [files, setFiles] = useState<FileSystemNode[]>(initialFiles);
   const [lessons, setLessons] = useState<LearningContent>(processedLessons);
   
-  const [activeFile, setActiveFile] = useState<File | null>(initialActiveFile);
+  const [activeFile, setActiveFile] = useState<File | null>(null);
   const [previewFiles, setPreviewFiles] = useState<FileSystemNode[] | null>(null);
 
-  const [code, setCode] = useState<string>(activeFile?.content || '// Select a file to start editing');
+  const [code, setCode] = useState<string>('// Select a file or lesson to start');
   const [chatSession, setChatSession] = useState<ChatSession | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   
@@ -237,13 +242,34 @@ const App: React.FC = () => {
 
   const isRunnable = activeFile ? getFileType(activeFile.name) === 'js' : false;
 
+  const handleTopicSelect = useCallback((topic: Topic) => {
+    const fileExtension = topic.fileType || 'js';
+    const topicFile: File = {
+        id: `topic-${topic.title.replace(/\s+/g, '-')}`,
+        type: 'file',
+        name: `${topic.title}.${fileExtension}`,
+        content: topic.content,
+    };
+    setActiveFile(topicFile);
+    setCode(topic.content);
+    setEditorToolbar(prev => ({ ...prev, isOpen: false }));
+
+    if (topic.projectFiles) {
+        setPreviewFiles(addIdsToFS(topic.projectFiles));
+    } else {
+        setPreviewFiles(null);
+    }
+
+    if(!isDesktop()) setIsLeftPanelOpen(false);
+  }, []);
+  
   // Auto-detect syntax errors on code change
   useEffect(() => {
     const handler = setTimeout(async () => {
       if (!activeFile || !code) return;
 
       const fileType = getFileType(activeFile.name);
-      const supportedFileTypes = ['js', 'html', 'css', 'json'];
+      const supportedFileTypes = ['js', 'html', 'css', 'json', 'ts', 'tsx'];
 
       if (!supportedFileTypes.includes(fileType)) {
           setProblems([]);
@@ -283,33 +309,19 @@ const App: React.FC = () => {
     };
   }, [code, activeFile]);
 
+  useEffect(() => {
+    // On initial load, open the first Vue.js topic to create a Vue-first experience
+    const vuejsSubject = lessons.vuejs[0];
+    if (vuejsSubject && vuejsSubject.topics[0]) {
+      handleTopicSelect(vuejsSubject.topics[0]);
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const handleFileSelect = useCallback((file: File) => {
     setActiveFile(file);
     setCode(file.content);
     setPreviewFiles(null); // Clear topic-specific preview
     setEditorToolbar(prev => ({ ...prev, isOpen: false }));
-    if(!isDesktop()) setIsLeftPanelOpen(false);
-  }, []);
-
-  const handleTopicSelect = useCallback((topic: Topic) => {
-    const fileExtension = topic.fileType || 'js';
-    const topicFile: File = {
-        id: `topic-${topic.title.replace(/\s+/g, '-')}`,
-        type: 'file',
-        name: `${topic.title}.${fileExtension}`,
-        content: topic.content,
-    };
-    setActiveFile(topicFile);
-    setCode(topic.content);
-    setEditorToolbar(prev => ({ ...prev, isOpen: false }));
-
-    if (topic.projectFiles) {
-        setPreviewFiles(addIdsToFS(topic.projectFiles));
-    } else {
-        setPreviewFiles(null);
-    }
-
     if(!isDesktop()) setIsLeftPanelOpen(false);
   }, []);
 
@@ -363,7 +375,7 @@ const App: React.FC = () => {
     } finally {
         setIsAiLoading(false);
     }
-  }, [initChat, chatSession]);
+  }, [initChat]);
   
   const handleCodeUpdate = (newCode: string, fileIdToUpdate?: string) => {
     const targetFileId = fileIdToUpdate || activeFile?.id;
@@ -624,7 +636,7 @@ const App: React.FC = () => {
         setModalState({ isOpen: true, title: 'Error', message: `Could not parse package.json: ${e.message}`, onCancel: handleCloseModal });
     }
 
-  }, [files, isBottomPanelOpen, handleTerminalCommand]);
+  }, [files, isBottomPanelOpen]);
 
   const handleToggleBottomPanel = () => {
     if (isBottomPanelOpen) {

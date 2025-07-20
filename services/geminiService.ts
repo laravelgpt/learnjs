@@ -13,6 +13,8 @@ const model = 'gemini-2.5-flash';
 const getLanguageName = (fileType: string): string => {
     const languageMap: { [key: string]: string } = {
         js: 'JavaScript',
+        ts: 'TypeScript',
+        tsx: 'TypeScript (React)',
         css: 'CSS',
         html: 'HTML',
         json: 'JSON',

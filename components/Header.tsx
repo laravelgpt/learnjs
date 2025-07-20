@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { CodeIcon } from './icons/CodeIcon';
 import { PlayIcon } from './icons/PlayIcon';

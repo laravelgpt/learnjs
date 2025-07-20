@@ -1,5 +1,3 @@
-
-
 import { LearningContent } from './types';
 
 // The type annotation has been removed from DEFAULT_FILESYSTEM.
@@ -8,71 +6,102 @@ import { LearningContent } from './types';
 export const DEFAULT_FILESYSTEM = [
   {
     type: 'folder',
-    name: 'My Project',
+    name: 'My Vue.js Project',
     children: [
-       {
-        type: 'file',
-        name: 'package.json',
-        content: `{
-  "name": "js-learn-studio-project",
-  "version": "1.0.0",
-  "description": "A project created in JS Learn Studio",
-  "main": "script.js",
-  "dependencies": {
-    "lodash": "^4.17.21"
-  },
-  "devDependencies": {}
-}`
-      },
       {
         type: 'file',
         name: 'index.html',
         content: `<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Project</title>
+  <script src="https://unpkg.com/vue@3"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 id="header">Hello World!</h1>
-  <p>Welcome to your first web page.</p>
-  <button onclick="changeText()">Click Me</button>
+  <div id="app">
+    <h1>{{ message }}</h1>
+    <button @click="changeMessage">Change Message</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
-</html>`,
+</html>`
       },
       {
         type: 'file',
         name: 'script.js',
-        content: `import _ from 'lodash';
+        content: `const { createApp, ref } = Vue;
 
-function changeText() {
-  const header = document.getElementById('header');
-  const newText = _.join(['You', 'clicked', 'the', 'button!'], ' ');
-  header.textContent = newText;
-  header.style.color = 'blue';
-  console.log('Text changed successfully using lodash!');
-}`,
+createApp({
+  setup() {
+    const message = ref('Welcome to your Vue.js project!');
+
+    function changeMessage() {
+      message.value = 'You clicked the button!';
+    }
+
+    return {
+      message,
+      changeMessage
+    };
+  }
+}).mount('#app');`
       },
       {
         type: 'file',
         name: 'style.css',
         content: `body {
+  background-color: #1a202c;
+  color: #e2e8f0;
   font-family: sans-serif;
-  background-color: #f0f0f0;
-  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
+
+#app {
+  text-align: center;
+  background-color: #2d3748;
+  padding: 2rem 4rem;
+  border-radius: 8px;
+  border: 1px solid #4a5568;
+}
+
+h1 {
+  color: #68d391;
+}
+
 button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: none;
-  background-color: #007bff;
-  color: white;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
   cursor: pointer;
-}`,
+  background-color: #68d391;
+  color: #1a202c;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+}`
       },
-    ],
-  },
+       {
+        type: 'file',
+        name: 'package.json',
+        content: `{
+  "name": "my-vue-app",
+  "version": "1.0.0",
+  "description": "A simple Vue.js project.",
+  "dependencies": {
+    "vue": "^3.4.0"
+  }
+}`
+      },
+    ]
+  }
 ];
 
 export const LEARNING_CONTENT: LearningContent = {
@@ -197,7 +226,7 @@ when you edit the source code at a later date. -->`,
             title: 'Quotations',
             content: `<p>Here is a quote from WWF's website:</p>
 <blockquote cite="http://www.worldwildlife.org/who/index.html">
-For 50 years, WWF has been protecting the future of nature.
+For 50 years, WWF has be protecting the future of nature.
 </blockquote>
 
 <p>WWF's goal is to <q>build a future where people live in harmony with nature.</q></p>`,
@@ -1936,6 +1965,1588 @@ type TodoEdit = Omit<Todo, "completed">;`,
         ]
     }
   ],
+  nextjs: [
+    {
+      name: 'App Router Fundamentals',
+      topics: [
+        {
+          title: 'Pages and Layouts',
+          prompt: 'Explain the role of page.tsx and layout.tsx in the App Router.',
+          content: `// In Next.js, a file named 'page.tsx' creates a new public route.
+// A 'layout.tsx' file defines a shared UI that wraps around pages.
+
+function Component() {
+  const containerStyles = {
+    border: '1px solid #ccc',
+    padding: '1rem',
+    margin: '0.5rem 0',
+    borderRadius: '8px',
+  };
+
+  return (
+    <div>
+      {/* This is like a layout.tsx */}
+      <div style={{...containerStyles, backgroundColor: '#e0f7fa'}}>
+        <p>I am a <strong>Layout</strong>. I stay the same across pages.</p>
+        
+        {/* This is like a page.tsx */}
+        <div style={{...containerStyles, backgroundColor: '#fffde7'}}>
+          <p>I am a <strong>Page</strong>. My content will change.</p>
+        </div>
+      </div>
+    </div>
+  );
+}`
+        },
+        {
+          title: 'Server Components',
+          prompt: 'What are the key characteristics of a Server Component?',
+          content: `function Component() {
+  // This component acts like a Server Component.
+  // It can't use hooks like useState, but it can be async to fetch data.
+  // In this simulation, we'll just show its static nature.
+  
+  const serverTime = new Date().toLocaleTimeString();
+
+  return (
+    <div style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <h3>Hello from a Server Component!</h3>
+      <p>This content was "rendered" on the server.</p>
+      <p>Render time: {serverTime}</p>
+      <p>(Note: In a real app, this time wouldn't update without a refresh)</p>
+    </div>
+  );
+}`
+        },
+        {
+          title: 'Client Components',
+          prompt: "How do you create a Client Component and when is it needed?",
+          content: `'use client';
+// The 'use client' directive marks this as a Client Component.
+// This allows you to use hooks like useState and useEffect for interactivity.
+
+function Component() {
+  const [count, setCount] = React.useState(0);
+
+  const buttonStyle = {
+    padding: '8px 16px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    marginTop: '10px'
+  };
+
+  return (
+    <div>
+      <h3>Hello from a Client Component!</h3>
+      <p>You have clicked the button {count} times.</p>
+      <button onClick={() => setCount(count + 1)} style={buttonStyle}>
+        Click me
+      </button>
+    </div>
+  );
+}`
+        },
+        {
+          title: 'The <Link> Component',
+          prompt: 'What is the benefit of using <Link> over a regular <a> tag?',
+          content: `// The <Link> component enables client-side navigation,
+// which is much faster than a full-page reload from a normal <a> tag.
+// In this preview, clicking the links will feel instant.
+
+function Component() {
+  const [page, setPage] = React.useState('home');
+
+  const navStyle = {
+    display: 'flex',
+    gap: '1rem',
+    marginBottom: '1rem'
+  };
+  const linkStyle = {
+    textDecoration: 'underline',
+    color: 'blue',
+    cursor: 'pointer'
+  };
+
+  return (
+    <div>
+      <nav style={navStyle}>
+        {/* These act like <Link> components */}
+        <a onClick={() => setPage('home')} style={linkStyle}>Home</a>
+        <a onClick={() => setPage('about')} style={linkStyle}>About</a>
+        <a onClick={() => setPage('profile')} style={linkStyle}>Profile</a>
+      </nav>
+      <hr/>
+      <div style={{marginTop: '1rem'}}>
+        {page === 'home' && <h2>Home Page</h2>}
+        {page === 'about' && <h2>About Page</h2>}
+        {page === 'profile' && <h2>User Profile</h2>}
+      </div>
+    </div>
+  );
+}`
+        },
+        {
+          title: 'Dynamic Segments',
+          prompt: 'How do you create a dynamic route to handle different blog post slugs?',
+          content: `function Component() {
+  // This simulates a dynamic route like /blog/[slug]
+  const [slug, setSlug] = React.useState('hello-world');
+
+  const containerStyle = {
+    fontFamily: 'sans-serif'
+  };
+  const inputStyle = {
+    padding: '8px',
+    fontSize: '14px',
+    marginTop: '4px'
+  };
+
+  return (
+    <div style={containerStyle}>
+      <label>
+        Change the slug to see the page update:
+        <br />
+        <input 
+          value={slug}
+          onChange={(e) => setSlug(e.target.value)}
+          style={inputStyle}
+        />
+      </label>
+      <hr style={{margin: '1rem 0'}}/>
+      <h2>Blog Post</h2>
+      <p>
+        Current slug: <strong>{slug}</strong>
+      </p>
+    </div>
+  );
+}`
+        }
+      ]
+    },
+    {
+      name: 'Data Fetching',
+      topics: [
+        {
+          title: 'Static Fetching (SSG)',
+          prompt: 'How does Next.js handle `fetch` requests by default?',
+          content: `function Component() {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // This fetch is cached by default in Next.js (SSG).
+    // The data is fetched at build time.
+    fetch('https://jsonplaceholder.typicode.com/posts/1')
+      .then(res => res.json())
+      .then(result => {
+        setData(result);
+        setLoading(false);
+      });
+  }, []); // Empty dependency array means this runs once.
+  
+  return (
+    <div>
+      <h3>Static Data</h3>
+      {loading && <p>Loading...</p>}
+      {data && <pre><code>{JSON.stringify(data, null, 2)}</code></pre>}
+    </div>
+  );
+}`
+        },
+        {
+          title: 'Dynamic Fetching (SSR)',
+          prompt: 'How can you ensure data is fetched fresh for every user request?',
+          content: `function Component() {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  const fetchData = () => {
+    setLoading(true);
+    // In Next.js, you'd add { cache: 'no-store' } to the fetch options.
+    // This forces a new fetch on every request (SSR).
+    // We simulate this by fetching a new random user each time.
+    const randomId = Math.floor(Math.random() * 10) + 1;
+    fetch(\`https://jsonplaceholder.typicode.com/users/\${randomId}\`)
+      .then(res => res.json())
+      .then(result => {
+        setData(result);
+        setLoading(false);
+      });
+  };
+  
+  React.useEffect(fetchData, []);
+
+  return (
+    <div>
+      <h3>Dynamic Data (New on each load)</h3>
+      <button onClick={fetchData} disabled={loading}>
+        Fetch New User
+      </button>
+      <hr style={{margin: '1rem 0'}}/>
+      {loading && <p>Loading...</p>}
+      {data && <pre><code>{JSON.stringify(data, null, 2)}</code></pre>}
+    </div>
+  );
+}`
+        },
+        {
+          title: 'Server Actions',
+          prompt: 'What are Server Actions and what problem do they solve?',
+          content: `function Component() {
+  const [text, setText] = React.useState('');
+  const [result, setResult] = React.useState('');
+
+  // This simulates a Server Action.
+  // It's an async function that runs on the server.
+  const formAction = async (formData) => {
+    setResult('Processing on the "server"...');
+    // In a real app, this would be a server-side database call.
+    // We'll just simulate a delay.
+    await new Promise(res => setTimeout(res, 1000));
+    const comment = formData.get('comment');
+    setResult(\`Server received: "\${comment}"\`);
+    setText('');
+  };
+
+  return (
+    <form action={formAction}>
+      <textarea
+        name="comment"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        rows="3"
+        style={{width: '95%', padding: '4px'}}
+        placeholder="Write a comment..."
+      />
+      <button type="submit" style={{marginTop: '8px'}}>Submit</button>
+      {result && <p style={{marginTop: '8px'}}><strong>Result:</strong> {result}</p>}
+    </form>
+  );
+}`
+        }
+      ]
+    },
+    {
+      name: 'Route Handlers',
+      topics: [
+        {
+          title: 'Creating a GET Handler',
+          prompt: 'How do you create a simple GET API endpoint in the App Router?',
+          content: `// In the App Router, you create API endpoints by adding a 'route.ts'
+// (or .js) file inside a route segment.
+// For example, this code would live in 'app/api/hello/route.ts'
+
+import { NextResponse } from 'next/server'
+ 
+export async function GET(request: Request) {
+  return NextResponse.json({ message: 'Hello from the API!' })
+}
+`,
+          projectFiles: [
+            {
+              type: 'file',
+              name: 'index.html',
+              content: `<div id="root"></div><script type="module" src="script.js"></script>`
+            },
+            {
+              type: 'file',
+              name: 'script.js',
+              content: `import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+// This component simulates calling the API endpoint defined in the lesson.
+function App() {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  
+  const callApi = async () => {
+    setLoading(true);
+    setData(null);
+    // In a real app, this would fetch from '/api/hello'.
+    // We simulate the response here.
+    await new Promise(res => setTimeout(res, 500));
+    setData({ message: 'Hello from the API!' });
+    setLoading(false);
+  };
+  
+  return (
+    <div>
+      <p>This button simulates a fetch to an API endpoint at <code>/api/hello</code>.</p>
+      <button onClick={callApi} disabled={loading}>{loading ? 'Loading...' : 'Call API'}</button>
+      {data && <pre style={{marginTop: '1rem'}}>
+        <code>{JSON.stringify(data, null, 2)}</code>
+      </pre>}
+    </div>
+  );
+}
+
+createRoot(document.getElementById('root')).render(<App/>);`
+            }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'Optimization',
+      topics: [
+        {
+          title: 'Image Component',
+          prompt: 'What are the main benefits of using the next/image component?',
+          content: `function Component() {
+  return (
+    <div>
+      <p>The <strong>next/image</strong> component optimizes images for you.</p>
+      <ul>
+        <li>Resizes images for different devices</li>
+        <li>Converts to modern formats like WebP</li>
+        <li>Lazy loads images by default</li>
+      </ul>
+      <img 
+        src="https://images.unsplash.com/photo-1627483298235-f3bac25d71c3?w=200"
+        alt="A placeholder landscape"
+        style={{width: 200, height: 120, objectFit: 'cover', marginTop: '1rem'}}
+      />
+    </div>
+  );
+}`
+        },
+        {
+          title: 'Font Optimization',
+          prompt: 'How does next/font improve performance?',
+          content: `function Component() {
+  return (
+    <div>
+      <p>The <strong>next/font</strong> component optimizes fonts by:</p>
+      <ul>
+        <li>Self-hosting them (no extra network request)</li>
+        <li>Preventing layout shifts</li>
+      </ul>
+      <p style={{fontFamily: 'Georgia, serif'}}>
+        This text is using a standard web-safe font.
+      </p>
+      <p style={{fontFamily: 'cursive'}}>
+        This text uses another font to show the difference.
+      </p>
+    </div>
+  );
+}`
+        },
+        {
+          title: 'Dynamic Metadata',
+          prompt: 'How do you dynamically generate metadata for a page?',
+          content: `// You can export a 'generateMetadata' function from a page
+// to dynamically create metadata based on params or fetched data.
+
+import type { Metadata } from 'next'
+ 
+type Props = {
+  params: { slug: string }
+}
+ 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // fetch data
+  const product = await fetch(\`https://api.example.com/products/\${params.slug}\`).then((res) => res.json())
+ 
+  return {
+    title: product.title,
+    description: product.description,
+  }
+}
+ 
+export default function Page({ params }: Props) {
+  return <h1>Product: {params.slug}</h1>
+}`,
+          projectFiles: [
+            {
+              type: 'file', name: 'index.html', content: `<div id="root"></div><script type="module" src="script.js"></script>`
+            },
+            {
+              type: 'file',
+              name: 'script.js',
+              content: `import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+function App() {
+  const [slug, setSlug] = React.useState('awesome-product');
+
+  // This simulates the outcome of dynamic metadata.
+  // In a real Next.js app, the browser tab title and meta tags would update.
+  const dynamicTitle = \`Title: \${slug.replace(/-/g, ' ')}\`;
+
+  return (
+    <div>
+      <p>Change the slug to see the simulated metadata update.</p>
+      <input 
+        value={slug}
+        onChange={(e) => setSlug(e.target.value)}
+        style={{width: '90%', padding: '8px'}}
+      />
+      <hr style={{margin: '1rem 0'}}/>
+      <h3>Simulated Page Metadata:</h3>
+      <p><strong>Browser Tab Title:</strong></p>
+      <div style={{
+        background: '#111827', 
+        padding: '0.5rem 1rem', 
+        borderRadius: '4px',
+        fontFamily: 'monospace'
+      }}>
+        {dynamicTitle}
+      </div>
+    </div>
+  );
+}
+
+createRoot(document.getElementById('root')).render(<App/>);`
+            }
+          ]
+        },
+      ]
+    },
+    {
+      name: 'Advanced Concepts',
+      topics: [
+        {
+          title: 'Middleware',
+          prompt: 'What is middleware and what are some common use cases?',
+          content: `// middleware.ts
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+// Middleware allows you to run code before a request is completed.
+// Based on the incoming request, you can modify the response by
+// rewriting, redirecting, modifying headers, or responding directly.
+export function middleware(request: NextRequest) {
+  // Example: Redirect to a login page if not authenticated
+  if (request.nextUrl.pathname.startsWith('/dashboard')) {
+    const isAuthenticated = request.cookies.has('auth-token');
+    if (!isAuthenticated) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+  }
+  return NextResponse.next()
+}`,
+          projectFiles: [
+            {
+              type: 'file',
+              name: 'index.html',
+              content: `<div id="root"></div><script type="module" src="script.js"></script>`
+            },
+            {
+              type: 'file',
+              name: 'script.js',
+              content: `import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+// In Next.js, middleware runs on the server before a request is completed.
+// We can simulate it here.
+
+function App() {
+  const [path, setPath] = React.useState('/');
+  const [log, setLog] = React.useState('');
+
+  const navigate = (newPath) => {
+    let finalPath = newPath;
+    // --- Middleware logic simulation ---
+    let logMessage = 'Navigating to ' + newPath;
+    if (newPath.startsWith('/dashboard') && !isLoggedIn) {
+      finalPath = '/login';
+      logMessage += ' -> Redirected by middleware!';
+    }
+    // --- End middleware logic ---
+    setPath(finalPath);
+    setLog(logMessage);
+  };
+  
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  return (
+    <div>
+      <p><strong>Logged In:</strong> {isLoggedIn.toString()}</p>
+      <button onClick={() => setIsLoggedIn(!isLoggedIn)}>Toggle Login</button>
+      <hr style={{margin:'1rem 0'}}/>
+      <nav style={{display:'flex', gap:'1rem'}}>
+        <a style={{cursor:'pointer', color:'blue'}} onClick={() => navigate('/')}>Home</a>
+        <a style={{cursor:'pointer', color:'blue'}} onClick={() => navigate('/dashboard')}>Dashboard</a>
+      </nav>
+      <div style={{marginTop:'1rem', padding:'1rem', border:'1px solid #eee'}}>
+        <p><strong>Current Page:</strong> {path}</p>
+      </div>
+       <pre style={{marginTop:'1rem', color:'green'}}>{log}</pre>
+    </div>
+  )
+}
+
+createRoot(document.getElementById('root')).render(<App/>);`
+            }
+          ]
+        },
+        {
+          title: 'Environment Variables',
+          prompt: 'How do you expose an environment variable to the browser?',
+          content: `function Component() {
+  // In Next.js, variables prefixed with NEXT_PUBLIC_ are available in the browser.
+  const analyticsId = "G-123XYZ"; // Simulating process.env.NEXT_PUBLIC_ANALYTICS_ID
+  const serverKey = "secret_key_123"; // Simulating process.env.SERVER_API_KEY
+
+  return (
+    <div>
+      <p>
+        <strong>Public variable (e.g., Analytics ID):</strong> 
+        <span>{analyticsId}</span>
+      </p>
+      <p>
+        <strong>Server-only variable (e.g., API Key):</strong> 
+        <span>(This would not be visible in the browser)</span>
+      </p>
+    </div>
+  );
+}`
+        }
+      ]
+    }
+  ],
+  vuejs: [
+    {
+      name: 'Vue 3 Fundamentals',
+      topics: [
+        {
+          title: 'Template Syntax & Data',
+          prompt: 'How do you display dynamic data in a Vue template?',
+          content: `const { createApp, ref } = Vue;
+
+createApp({
+  setup() {
+    const message = ref('Hello Vue!');
+    return { message };
+  },
+  template: \`
+    <div>
+      <h1>{{ message }}</h1>
+      <input v-model="message" />
+    </div>
+  \`
+}).mount('#app')`
+        },
+        {
+          title: 'Attribute Bindings',
+          prompt: 'What is the shorthand for `v-bind`?',
+          content: `const { createApp, ref } = Vue;
+
+createApp({
+  setup() {
+    const imageSrc = ref('https://vuejs.org/images/logo.png');
+    const isButtonDisabled = ref(false);
+    
+    return { imageSrc, isButtonDisabled };
+  },
+  template: \`
+    <div>
+      <img :src="imageSrc" alt="Vue Logo" width="50" />
+      <br />
+      <button :disabled="isButtonDisabled">A Button</button>
+      <br />
+      <button @click="isButtonDisabled = !isButtonDisabled">Toggle Button</button>
+    </div>
+  \`
+}).mount('#app')`
+        },
+      ]
+    },
+    {
+      name: 'Reactivity with Composition API',
+      topics: [
+        {
+          title: 'ref()',
+          prompt: 'Why do you need to use `.value` with `ref`s in JavaScript?',
+          content: `const { createApp, ref } = Vue;
+
+createApp({
+  setup() {
+    // ref() makes a value reactive.
+    const count = ref(0);
+    
+    // You must use .value in script
+    function increment() {
+      count.value++;
+    }
+    
+    return { count, increment };
+  },
+  // In the template, .value is not needed
+  template: \`
+    <button @click="increment">
+      Count is: {{ count }}
+    </button>
+  \`
+}).mount('#app')`
+        },
+        {
+          title: 'reactive()',
+          prompt: 'What is the main difference between `ref()` and `reactive()`?',
+          content: `const { createApp, reactive } = Vue;
+
+createApp({
+  setup() {
+    // reactive() is for objects. You don't use .value.
+    const state = reactive({
+      count: 0,
+      user: { name: 'Alice' }
+    });
+    
+    return { state };
+  },
+  template: \`
+    <div>
+      <p>Count: {{ state.count }}</p>
+      <p>User: {{ state.user.name }}</p>
+      <button @click="state.count++">Increment</button>
+    </div>
+  \`
+}).mount('#app')`
+        },
+        {
+          title: 'computed()',
+          prompt: 'What is a computed property and when would you use one?',
+          content: `const { createApp, ref, computed } = Vue;
+
+createApp({
+  setup() {
+    const firstName = ref('John');
+    const lastName = ref('Doe');
+
+    const fullName = computed(() => {
+      return \`\${firstName.value} \${lastName.value}\`;
+    });
+    
+    return { firstName, lastName, fullName };
+  },
+  template: \`
+    <div>
+      <input v-model="firstName" placeholder="First Name"/>
+      <input v-model="lastName" placeholder="Last Name"/>
+      <p>Full Name: <strong>{{ fullName }}</strong></p>
+    </div>
+  \`
+}).mount('#app')`
+        },
+        {
+          title: 'watch()',
+          prompt: 'How can you watch for changes in a `ref`?',
+          content: `const { createApp, ref, watch } = Vue;
+
+createApp({
+  setup() {
+    const question = ref('');
+    const answer = ref('Ask a question with a ?');
+
+    watch(question, (newQuestion, oldQuestion) => {
+      if (newQuestion.includes('?')) {
+        answer.value = 'Thinking...';
+        setTimeout(() => {
+          answer.value = 'That is a good question!';
+        }, 1000);
+      }
+    });
+    
+    return { question, answer };
+  },
+  template: \`
+    <div>
+      <p>
+        Ask a yes/no question:
+        <input v-model="question" />
+      </p>
+      <p>{{ answer }}</p>
+    </div>
+  \`
+}).mount('#app')`
+        },
+      ]
+    },
+    {
+      name: 'Conditional and List Rendering',
+      topics: [
+        {
+          title: 'v-if, v-else',
+          prompt: 'Explain how `v-if` works.',
+          content: `const { createApp, ref } = Vue;
+createApp({
+  setup() {
+    const awesome = ref(true);
+    return { awesome };
+  },
+  template: \`
+    <div>
+      <button @click="awesome = !awesome">Toggle</button>
+      <h1 v-if="awesome">Vue is awesome!</h1>
+      <h1 v-else>Oh no 😢</h1>
+    </div>
+  \`
+}).mount('#app')`
+        },
+        {
+          title: 'v-for',
+          prompt: 'Why is the `:key` attribute important when using `v-for`?',
+          content: `const { createApp, ref } = Vue;
+createApp({
+  setup() {
+    const items = ref([
+      { id: 1, message: 'Learn HTML' },
+      { id: 2, message: 'Learn CSS' },
+      { id: 3, message: 'Learn Vue' }
+    ]);
+    return { items };
+  },
+  template: \`
+    <ul>
+      <!-- The :key helps Vue track each item's identity -->
+      <li v-for="item in items" :key="item.id">
+        {{ item.message }}
+      </li>
+    </ul>
+  \`
+}).mount('#app')`
+        },
+      ]
+    },
+    {
+      name: 'Event Handling',
+      topics: [
+        {
+          title: 'Listening to Events',
+          prompt: 'What is the shorthand for `v-on`?',
+          content: `const { createApp, ref } = Vue;
+createApp({
+  setup() {
+    const count = ref(0);
+    return { count };
+  },
+  // @click is shorthand for v-on:click
+  template: \`
+    <button @click="count++">
+      Add 1 (Count: {{count}})
+    </button>
+  \`
+}).mount('#app')`
+        },
+        {
+          title: 'Event Modifiers',
+          prompt: 'What does the `.prevent` event modifier do?',
+          content: `const { createApp } = Vue;
+createApp({
+  setup() {
+    const onSubmit = () => {
+      alert('Form submitted, but page did not reload because of .prevent');
+    };
+    return { onSubmit };
+  },
+  // .prevent stops the default browser action for the event
+  template: \`
+    <form @submit.prevent="onSubmit">
+      <button type="submit">Submit</button>
+    </form>
+  \`
+}).mount('#app')`
+        },
+      ]
+    },
+    {
+      name: 'Form Input Bindings',
+      topics: [
+        {
+          title: 'v-model',
+          prompt: 'What does `v-model` do?',
+          content: `const { createApp, ref } = Vue;
+createApp({
+  setup() {
+    const text = ref('');
+    return { text };
+  },
+  // v-model creates a two-way binding on the input
+  template: \`
+    <div>
+      <input v-model="text" placeholder="Type here" />
+      <p>The text is: {{ text }}</p>
+    </div>
+  \`
+}).mount('#app')`
+        },
+      ]
+    },
+    {
+      name: 'Components In-Depth',
+      topics: [
+        {
+          title: 'Props & Events',
+          prompt: 'How does a child component communicate with its parent?',
+          content: `// Child components receive data from parents via 'props'.
+// They communicate back up to parents by emitting 'events'.
+
+// ChildComponent.vue
+const props = defineProps(['message']);
+const emit = defineEmits(['response']);
+
+emit('response', 'Hello from child!');`,
+          projectFiles: [
+            {
+              type: 'file',
+              name: 'index.html',
+              content: `<div id="app"></div><script type="module" src="script.js"></script>`
+            },
+            {
+              type: 'file',
+              name: 'script.js',
+              content: `const { createApp, ref } = Vue;
+
+// Child component definition
+const ChildComponent = {
+  props: ['title'],
+  emits: ['response'],
+  setup(props, { emit }) {
+    emit('response', 'hello from child!')
+    return {}
+  },
+  template: \`
+    <div style="border:1px solid #4a5568; padding:1rem; border-radius: 8px; margin-top: 1rem;">
+      <h4>Child Component</h4>
+      <p>Prop from parent: {{ title }}</p>
+      <button @click="$emit('response', 'Button in child clicked!')">
+        Emit Event
+      </button>
+    </div>
+  \`
+};
+
+// Parent component (the main app)
+createApp({
+  components: { ChildComponent },
+  setup() {
+    const childMessage = ref('');
+    return { childMessage };
+  },
+  template: \`
+    <div>
+      <h2>Parent Component</h2>
+      <ChildComponent 
+        title="My awesome component"
+        @response="msg => childMessage = msg"
+      />
+      <p style="margin-top: 1rem;">
+        Message from child: <strong>{{ childMessage }}</strong>
+      </p>
+    </div>
+  \`
+}).mount('#app');
+`
+            }
+          ]
+        },
+        {
+          title: 'Slots',
+          prompt: 'What are slots used for?',
+          content: `// Slots are a content distribution mechanism.
+// They allow you to pass markup from a parent component
+// into a child component's template.
+
+// FancyButton.vue (Child)
+<button>
+  <slot></slot> <!-- Parent content goes here -->
+</button>
+
+// App.vue (Parent)
+<FancyButton>
+  Click Me! <!-- This content is passed into the slot -->
+</FancyButton>`,
+          projectFiles: [
+            {
+              type: 'file',
+              name: 'index.html',
+              content: `<div id="app"></div><script type="module" src="script.js"></script>`
+            },
+            {
+              type: 'file',
+              name: 'script.js',
+              content: `const { createApp } = Vue;
+
+// Child component with a slot
+const FancyButton = {
+  template: \`
+    <button style="background:linear-gradient(to right, #68d391, #33a06f); color:white; padding:10px 20px; border:none; border-radius:5px;">
+      <slot>Default Content</slot> <!-- Slot content goes here -->
+    </button>
+  \`
+};
+
+// Parent component
+createApp({
+  components: { FancyButton },
+  template: \`
+    <div>
+      <FancyButton>
+        Click Me!  <!-- This is the slot content -->
+      </FancyButton>
+    </div>
+  \`
+}).mount('#app');
+`
+            }
+          ]
+        },
+        {
+          title: 'Lifecycle Hooks',
+          prompt: 'What is onMounted and how is it used?',
+          content: `const { createApp, ref, onMounted } = Vue;
+
+createApp({
+  setup() {
+    const data = ref(null);
+    
+    // onMounted is called after the component is mounted to the DOM.
+    // It's a great place to fetch data or interact with the DOM.
+    onMounted(() => {
+      console.log('Component has been mounted!');
+      // Simulate fetching data
+      setTimeout(() => {
+        data.value = 'Data loaded successfully!';
+      }, 1000);
+    });
+    
+    return { data };
+  },
+  template: \`
+    <div>
+      <h3>Lifecycle Hooks</h3>
+      <p v-if="!data">Loading...</p>
+      <p v-else>{{ data }}</p>
+    </div>
+  \`
+}).mount('#app')`
+        },
+        {
+          title: 'Provide & Inject',
+          prompt: 'How do provide and inject work for deep component communication?',
+          content: `// Provide/Inject is used to pass data through a component tree
+// without having to pass props down manually at every level.
+
+// It's useful for things like the current theme, user info, etc.`,
+          projectFiles: [
+            {
+              type: 'file', name: 'index.html', content: `<div id="app"></div><script type="module" src="script.js"></script>`
+            },
+            {
+              type: 'file',
+              name: 'script.js',
+              content: `const { createApp, ref, provide, inject } = Vue;
+
+const DeeplyNestedComponent = {
+  setup() {
+    // Inject the provided value with a key
+    const theme = inject('theme');
+    return { theme };
+  },
+  template: \`
+    <div :style="{ color: theme.value.color, marginTop: '1rem', padding: '1rem', border: '1px solid ' + theme.value.color, borderRadius: '8px' }">
+      <p>I am a deeply nested component.</p>
+      <p>The current theme is: <strong>{{ theme.value.name }}</strong></p>
+    </div>
+  \`
+};
+
+const ChildComponent = {
+  components: { DeeplyNestedComponent },
+  template: \`
+    <div style="margin-top: 1rem;">
+      <h4>Child Component</h4>
+      <DeeplyNestedComponent />
+    </div>
+  \`
+};
+
+createApp({
+  components: { ChildComponent },
+  setup() {
+    const currentTheme = ref({ name: 'Light', color: '#68d391' });
+    
+    // Provide the value to all descendant components
+    provide('theme', currentTheme);
+
+    function toggleTheme() {
+        if(currentTheme.value.name === 'Light') {
+            currentTheme.value = { name: 'Dark', color: '#e53e3e' };
+        } else {
+            currentTheme.value = { name: 'Light', color: '#68d391' };
+        }
+    }
+    
+    return { toggleTheme };
+  },
+  template: \`
+    <div>
+      <h2>Parent Component</h2>
+      <button @click="toggleTheme">Toggle Theme</button>
+      <ChildComponent />
+    </div>
+  \`
+}).mount('#app');`
+            }
+          ]
+        },
+         {
+          title: 'Example: To-Do App',
+          prompt: 'Show me a complete example of a simple To-Do List app in Vue.',
+          content: `// This example combines several Vue concepts to create a simple to-do list application.`,
+          projectFiles: [
+            {
+              type: 'file',
+              name: 'index.html',
+              content: `<div id="app"></div><script type="module" src="script.js"></script><style>
+                #app { max-width: 500px; margin: auto; }
+                h1 { color: #68d391; }
+                input { width: 70%; padding: 8px; background: #2d3748; border: 1px solid #4a5568; color: white; border-radius: 4px; }
+                button { background: #68d391; color: #1a202c; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; cursor: pointer; margin-left: 8px; }
+                ul { list-style: none; padding: 0; margin-top: 1rem; }
+                li { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #2d3748; border-radius: 4px; margin-bottom: 0.5rem; cursor: pointer; }
+                .done { text-decoration: line-through; opacity: 0.5; }
+                li button { background: #e53e3e; color: white; }
+              </style>`
+            },
+            {
+              type: 'file',
+              name: 'script.js',
+              content: `const { createApp, ref, computed } = Vue;
+
+const TodoItem = {
+  props: ['todo'],
+  emits: ['remove'],
+  template: \`
+    <li>
+      <span :class="{ done: todo.done }" @click="todo.done = !todo.done">
+        {{ todo.text }}
+      </span>
+      <button @click="$emit('remove')">X</button>
+    </li>
+  \`
+};
+
+createApp({
+  components: { TodoItem },
+  setup() {
+    const newTodo = ref('');
+    const todos = ref([
+      { id: 1, text: 'Learn Vue', done: true },
+      { id: 2, text: 'Build an app', done: false },
+    ]);
+
+    const remaining = computed(() => todos.value.filter(t => !t.done).length);
+    let nextTodoId = 3;
+
+    function addTodo() {
+      if (newTodo.value.trim()) {
+        todos.value.push({
+          id: nextTodoId++,
+          text: newTodo.value,
+          done: false
+        });
+        newTodo.value = '';
+      }
+    }
+
+    function removeTodo(id) {
+      todos.value = todos.value.filter(t => t.id !== id);
+    }
+    
+    return { newTodo, todos, addTodo, removeTodo, remaining };
+  },
+  template: \`
+    <div>
+      <h1>My To-Do List</h1>
+      <form @submit.prevent="addTodo">
+        <input v-model="newTodo" placeholder="Add a new to-do...">
+        <button type="submit">Add</button>
+      </form>
+      
+      <ul>
+        <TodoItem 
+          v-for="todo in todos" 
+          :key="todo.id"
+          :todo="todo"
+          @remove="removeTodo(todo.id)"
+        />
+      </ul>
+      
+      <p v-if="todos.length > 0">
+        Remaining tasks: {{ remaining }}
+      </p>
+      <p v-else>All done! ✨</p>
+    </div>
+  \`
+}).mount('#app');
+`
+            }
+          ]
+        },
+      ]
+    },
+  ],
+  nuxtjs: [
+    {
+        name: 'Nuxt Fundamentals',
+        topics: [
+            {
+                title: 'What is Nuxt?',
+                prompt: 'What are the main advantages of using Nuxt over standard Vue?',
+                content: `function Component() {
+  return (
+    <div>
+      <p>Nuxt is a framework for Vue.js that adds many powerful features out-of-the-box:</p>
+      <ul style={{textAlign: 'left'}}>
+        <li>File-based routing</li>
+        <li>Server-Side Rendering (SSR) & other rendering modes</li>
+        <li>Auto-imports for components and composables</li>
+        <li>A powerful module ecosystem for adding features</li>
+      </ul>
+    </div>
+  );
+}`,
+                fileType: 'tsx',
+            },
+            {
+                title: 'File-based Routing',
+                prompt: 'How does Nuxt create routes from files?',
+                content: `function Component() {
+  const fileStructure = \`
+pages/
+├── index.vue      -> /
+├── about.vue      -> /about
+└── users/
+    ├── [id].vue   -> /users/:id
+    └── index.vue  -> /users
+  \`;
+  return (
+    <div>
+      <p>Nuxt creates routes automatically from <code>.vue</code> files in the <code>pages/</code> directory.</p>
+      <pre style={{backgroundColor: '#2d3748', padding: '1rem', marginTop: '1rem', borderRadius: '4px'}}>
+        <code>{fileStructure}</code>
+      </pre>
+    </div>
+  );
+}`,
+                fileType: 'tsx',
+            },
+            {
+                title: 'Auto-imported Components',
+                prompt: 'Explain how component auto-importing works in Nuxt.',
+                content: `function Component() {
+  return (
+    <div>
+      <p>
+        Any <code>.vue</code> component in your <code>components/</code> directory is available
+        in your app without needing to write an import statement.
+      </p>
+      <div style={{
+        border: '1px solid #48bb78', padding: '1rem', marginTop: '1rem', borderRadius: '8px'
+      }}>
+        This could be an &lt;AppHeader /&gt; component.
+      </div>
+      <div style={{
+        border: '1px solid #48bb78', padding: '1rem', marginTop: '1rem', borderRadius: '8px'
+      }}>
+        This could be a &lt;UserProfileCard /&gt; component.
+      </div>
+    </div>
+  );
+}`,
+                fileType: 'tsx',
+            },
+            {
+                title: '<NuxtLink>',
+                prompt: 'What is the difference between <NuxtLink> and a regular <a> tag?',
+                content: `function Component() {
+  const [page, setPage] = React.useState('Home');
+  return (
+    <div>
+      <p>
+        <code>&lt;NuxtLink&gt;</code> provides fast, client-side navigation without full page reloads.
+      </p>
+      <nav style={{display: 'flex', gap: '1rem', margin: '1rem 0'}}>
+        <a style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setPage('Home')}>
+          NuxtLink to Home
+        </a>
+        <a style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setPage('About')}>
+          NuxtLink to About
+        </a>
+      </nav>
+      <div style={{borderTop: '1px solid #4a5568', paddingTop: '1rem', marginTop: '1rem'}}>
+        Current Page: <strong>{page}</strong>
+      </div>
+    </div>
+  );
+}`,
+                fileType: 'tsx',
+            },
+        ]
+    },
+    {
+      name: 'Key Directories',
+      topics: [
+        {
+          title: 'app.vue',
+          prompt: 'What is the purpose of the app.vue file?',
+          content: `function Component() {
+  // In Nuxt, app.vue is the main component of your application.
+  // It's the root component that renders for every route.
+  // You often use it to define a <NuxtLayout> and <NuxtPage>.
+
+  return (
+    <div style={{
+      border: '2px dashed #00dc82', padding: '1rem', borderRadius: '8px', backgroundColor: '#1f2b34'
+    }}>
+      <h3 style={{marginTop: 0, color: '#00dc82'}}>app.vue</h3>
+      <div style={{
+        border: '1px solid #48bb78', padding: '1rem', borderRadius: '8px', backgroundColor: '#2c3e50'
+      }}>
+        <strong>&lt;NuxtLayout&gt;</strong>
+        <div style={{
+          border: '1px solid #9f7aea', padding: '1rem', marginTop: '1rem', borderRadius: '8px', backgroundColor: '#34495e'
+        }}>
+          <strong>&lt;NuxtPage /&gt;</strong>
+          <p style={{margin:0}}>(Page content for the current route appears here)</p>
+        </div>
+      </div>
+    </div>
+  );
+}`,
+          fileType: 'tsx'
+        },
+        {
+          title: 'Layouts',
+          prompt: 'How do you create and use layouts in Nuxt?',
+          content: `function Component() {
+  // layouts/default.vue defines a default layout.
+  // layouts/custom.vue would define a layout named 'custom'.
+  // You can wrap pages in layouts for shared UI.
+
+  const [layout, setLayout] = React.useState('default');
+
+  const pageContent = (
+    <div style={{padding: '1rem', background: '#34495e', borderRadius: '4px'}}>
+      <p>This is the page content.</p>
+      <p>It gets rendered inside the layout's &lt;slot /&gt;.</p>
+    </div>
+  );
+
+  return (
+    <div>
+      <div style={{marginBottom: '1rem'}}>
+        <button onClick={() => setLayout('default')}>Use Default Layout</button>
+        <button onClick={() => setLayout('custom')}>Use Custom Layout</button>
+      </div>
+
+      <p>Current layout: <strong>{layout}</strong></p>
+
+      {/* Simulating layouts */}
+      {layout === 'default' ? (
+        <div style={{border: '1px solid #48bb78', padding: '1rem', borderRadius: '8px'}}>
+          <header>Default Layout Header</header>
+          <main style={{margin: '1rem 0'}}>{pageContent}</main>
+          <footer>Default Layout Footer</footer>
+        </div>
+      ) : (
+        <div style={{border: '1px solid #9f7aea', padding: '1rem', borderRadius: '8px'}}>
+          <aside style={{float: 'left', marginRight: '1rem', borderRight: '1px solid #9f7aea', paddingRight: '1rem'}}>Custom Sidebar</aside>
+          <main>{pageContent}</main>
+        </div>
+      )}
+    </div>
+  );
+}`,
+          fileType: 'tsx'
+        },
+        {
+          title: 'Composables',
+          prompt: 'How are composables automatically imported in Nuxt?',
+          content: `function Component() {
+  // Any function in the 'composables/' directory is auto-imported.
+  // This is great for sharing reactive logic across components.
+  // e.g., composables/useCounter.ts
+
+  // We'll simulate its usage here.
+  const [count, setCount] = React.useState(0);
+  const increment = () => setCount(c => c + 1);
+
+  return (
+    <div>
+      <h3>Counter (from a simulated composable)</h3>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}`,
+          fileType: 'tsx'
+        },
+      ]
+    },
+    {
+        name: 'Data Fetching',
+        topics: [
+            {
+                title: 'useFetch',
+                prompt: 'What is `useFetch` and what does it return?',
+                content: `function Component() {
+  const [data, setData] = React.useState(null);
+  const [pending, setPending] = React.useState(false);
+
+  // useFetch is a composable for fetching data on server and client.
+  const fetchData = () => {
+    setPending(true);
+    setData(null);
+    setTimeout(() => {
+      setData({ id: 1, title: 'Fetched via useFetch' });
+      setPending(false);
+    }, 1000);
+  };
+  
+  return (
+    <div>
+      <button onClick={fetchData} disabled={pending}>
+        {pending ? 'Loading...' : 'Run useFetch'}
+      </button>
+      {data && <pre style={{marginTop: '1rem', backgroundColor: '#2d3748', padding: '1rem', borderRadius: '4px'}}>
+        <code>{JSON.stringify(data, null, 2)}</code>
+      </pre>}
+    </div>
+  );
+}`,
+                fileType: 'tsx'
+            },
+            {
+                title: 'useAsyncData',
+                prompt: 'When would you use `useAsyncData` instead of `useFetch`?',
+                content: `function Component() {
+  const [data, setData] = React.useState(null);
+  const [pending, setPending] = React.useState(false);
+
+  // useAsyncData is great for more complex fetching logic.
+  const fetchData = async () => {
+    setPending(true);
+    setData(null);
+    // Imagine this is a complex async call, maybe not just a simple fetch.
+    await new Promise(res => setTimeout(res, 1000));
+    setData({ user: 'Jane Doe', from: 'useAsyncData' });
+    setPending(false);
+  };
+  
+  return (
+    <div>
+      <p>Use code>useAsyncData</code> for complex async logic or using 3rd party libraries.</p>
+      <button onClick={fetchData} disabled={pending}>
+        {pending ? 'Loading...' : 'Run useAsyncData'}
+      </button>
+      {data && <pre style={{marginTop: '1rem', backgroundColor: '#2d3748', padding: '1rem', borderRadius: '4px'}}>
+        <code>{JSON.stringify(data, null, 2)}</code>
+      </pre>}
+    </div>
+  );
+}`,
+                fileType: 'tsx'
+            },
+        ]
+    },
+     {
+        name: 'Advanced Concepts',
+        topics: [
+            {
+                title: 'Plugins',
+                prompt: 'How do you create a Nuxt plugin?',
+                content: `function Component() {
+  // Plugins in the 'plugins/' directory run when your app is created.
+  // They are perfect for initializing libraries or adding helper functions.
+  // A file named 'plugins/myPlugin.ts' would define a plugin.
+
+  // --- Example plugins/myPlugin.ts ---
+  // export default defineNuxtPlugin(nuxtApp => {
+  //   return {
+  //     provide: {
+  //       hello: (name) => \`Hello, \${name}!\`
+  //     }
+  //   }
+  // })
+  
+  // This would make $hello available across your app.
+
+  return (
+    <div>
+      <p>A plugin has provided a global helper: <code>$hello</code>.</p>
+      <p>Calling it would look like this in a component:</p>
+      <pre style={{backgroundColor: '#2d3748', padding: '1rem', marginTop: '1rem', borderRadius: '4px'}}>
+        <code>
+          const {'{ $hello }'} = useNuxtApp()<br/>
+          {'const greeting = $hello("World") // "Hello, World!"'}
+        </code>
+      </pre>
+      <p style={{marginTop: '1rem'}}><strong>Simulated output:</strong> Hello, World!</p>
+    </div>
+  );
+}`,
+                fileType: 'tsx'
+            },
+            {
+                title: 'Server Middleware',
+                prompt: 'What is server middleware in Nuxt?',
+                content: `function Component() {
+  // Server middleware runs on the server before any other part of your app.
+  // It's located in the 'server/middleware/' directory.
+  // Use cases: logging, authentication checks, adding headers.
+
+  // --- Example server/middleware/log.ts ---
+  // import { getRequestURL } from 'h3'
+  // export default defineEventHandler((event) => {
+  //   console.log('New request: ' + getRequestURL(event))
+  // })
+
+  return (
+    <div>
+      <p>Middleware is running on the server for every request.</p>
+      <p>It can inspect the request and even modify the response before your page or API route is executed.</p>
+      <p>In a real app, you could check the server console for logs!</p>
+    </div>
+  );
+}`,
+                fileType: 'tsx'
+            },
+        ]
+    },
+    {
+        name: 'Server Engine (Nitro)',
+        topics: [
+            {
+                title: 'API Routes',
+                prompt: 'How do you create an API endpoint at `/api/products`?',
+                content: `function Component() {
+  const [data, setData] = React.useState(null);
+
+  // In Nuxt, a file at /server/api/products.ts would create this endpoint.
+  const callApi = async () => {
+    setData({ status: 'calling /api/products...' });
+    await new Promise(res => setTimeout(res, 500));
+    setData([
+      { id: 1, name: 'Laptop' },
+      { id: 2, name: 'Mouse' }
+    ]);
+  };
+  
+  return (
+    <div>
+      <button onClick={callApi}>Call /api/products</button>
+      {data && <pre style={{marginTop: '1rem', backgroundColor: '#2d3748', padding: '1rem', borderRadius: '4px'}}>
+        <code>{JSON.stringify(data, null, 2)}</code>
+      </pre>}
+    </div>
+  );
+}`,
+                fileType: 'tsx'
+            },
+        ]
+    },
+    {
+        name: 'State Management',
+        topics: [
+            {
+                title: 'useState',
+                prompt: 'What is the purpose of `useState` in Nuxt?',
+                content: `// Nuxt's useState composable creates a reactive,
+// SSR-friendly shared state that is preserved across components.
+// It's like a ref(), but can be accessed by multiple components.
+
+// To define a state:
+const counter = useState('counter', () => 0);
+
+// To use it in another component:
+const counter = useState('counter');`,
+                projectFiles: [
+                  {
+                    type: 'file',
+                    name: 'index.html',
+                    content: `<div id="root"></div><script type="module" src="script.js"></script>`
+                  },
+                  {
+                    type: 'file',
+                    name: 'script.js',
+                    content: `import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+// Nuxt's useState provides SSR-friendly shared state.
+// We'll simulate it with a simple shared object and a subscriber pattern.
+const sharedState = {
+  _counter: 0,
+  _subscribers: [],
+  get value() { return this._counter; },
+  set value(val) { 
+    this._counter = val;
+    this._subscribers.forEach(cb => cb(val));
+  },
+  subscribe(callback) {
+    this._subscribers.push(callback);
+    return () => {
+      this._subscribers = this._subscribers.filter(cb => cb !== callback);
+    }
+  }
+};
+
+function ComponentA() {
+  const [count, setCount] = React.useState(sharedState.value);
+
+  React.useEffect(() => {
+    const unsubscribe = sharedState.subscribe(setCount);
+    return unsubscribe;
+  }, []);
+
+  const increment = () => {
+    sharedState.value++;
+  };
+  
+  return (
+    <div style={{border:'1px solid #48bb78', padding:'1rem', borderRadius:'4px'}}>
+      <h3>Component A</h3>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment from A</button>
+    </div>
+  )
+}
+
+function ComponentB() {
+  const [count, setCount] = React.useState(sharedState.value);
+  
+  React.useEffect(() => {
+    const unsubscribe = sharedState.subscribe(setCount);
+    return unsubscribe;
+  }, []);
+
+  return (
+    <div style={{border:'1px solid #48bb78', padding:'1rem', marginTop:'1rem', borderRadius:'4px'}}>
+      <h3>Component B</h3>
+      <p>Count: {count}</p>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <div>
+      <p><code>useState</code> allows state to be shared between components.</p>
+      <ComponentA />
+      <ComponentB />
+    </div>
+  )
+}
+
+createRoot(document.getElementById('root')).render(<App/>);`
+                  }
+                ]
+            },
+        ]
+    },
+  ]
 };
 
 

@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from 'react';
 import { BugIcon } from './icons/BugIcon';
 import { TerminalIcon } from './icons/TerminalIcon';

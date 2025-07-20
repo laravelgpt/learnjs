@@ -21,7 +21,7 @@ export interface Topic {
   content: string;
   prompt: string;
   projectFiles?: any[];
-  fileType?: 'html' | 'css' | 'js' | 'ts';
+  fileType?: 'html' | 'css' | 'js' | 'ts' | 'jsx' | 'tsx';
 }
 
 export interface Subject {
@@ -30,7 +30,13 @@ export interface Subject {
 }
 
 export interface LearningContent {
-  [key: string]: Subject[];
+  html: Subject[];
+  css: Subject[];
+  javascript: Subject[];
+  typescript: Subject[];
+  nextjs: Subject[];
+  vuejs: Subject[];
+  nuxtjs: Subject[];
 }
 
 export interface AIMessage {
